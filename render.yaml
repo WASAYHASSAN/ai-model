@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: sports-model-app
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn detector.wsgi"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: detector.settings
+      - key: PYTHON_VERSION
+        value: 3.10

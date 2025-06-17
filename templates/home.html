@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sports Image Classifier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
+
+    <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-xl text-center">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">🏆 Sports Image Classifier</h1>
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            {% csrf_token %}
+
+            <input type="file" name="file" id="imageInput" accept="image/*" required
+                   class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full
+                          file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700
+                          hover:file:bg-blue-100"/>
+
+            <img id="preview" src="" alt="" class="mx-auto rounded-xl shadow mt-4 hidden max-h-60">
+
+            <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-full transition">
+                Predict Now
+            </button>
+        </form>
+
+        {% if prediction %}
+        <div class="mt-6 p-6 bg-green-100 text-green-900 rounded-xl shadow border border-green-300">
+            <h2 class="text-2xl font-bold">🎯 Prediction Result</h2>
+            <p class="text-lg mt-2">Predicted Class: <strong>{{ prediction }}</strong></p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        const imageInput = document.getElementById('imageInput');
+        const preview = document.getElementById('preview');
+
+        imageInput.onchange = evt => {
+            const [file] = imageInput.files;
+            if (file) {
+                preview.src = URL.createObjectURL(file);
+                preview.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
